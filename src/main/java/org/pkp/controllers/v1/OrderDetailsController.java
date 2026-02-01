@@ -1,5 +1,6 @@
 package org.pkp.controllers.v1;
 
+import jakarta.validation.Valid;
 import org.pkp.dto.Request.OrderDetailRequest;
 import org.pkp.dto.Response.OrderDetailSaveResponse;
 import org.pkp.services.OrderDetailService;
@@ -21,7 +22,7 @@ public class OrderDetailsController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderDetailSaveResponse> save(@RequestBody OrderDetailRequest request )
+    public ResponseEntity<OrderDetailSaveResponse> save(@Valid @RequestBody OrderDetailRequest request )
     {
         OrderDetailSaveResponse response = service.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
