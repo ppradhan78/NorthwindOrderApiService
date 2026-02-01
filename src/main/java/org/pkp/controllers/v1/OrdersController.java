@@ -2,7 +2,6 @@ package org.pkp.controllers.v1;
 
 import lombok.RequiredArgsConstructor;
 import org.pkp.dto.Response.AllOrderResponse;
-import org.pkp.dto.Response.OrderDetailResponse;
 import org.pkp.dto.Response.OrderResponse;
 import org.pkp.entity.Order;
 import org.pkp.services.OrdersService;
@@ -29,7 +28,6 @@ public class OrdersController {
             throw new RuntimeException(e);
         }
     }
-
 
     @GetMapping
     public ResponseEntity<List<OrderResponse>> findAll() {

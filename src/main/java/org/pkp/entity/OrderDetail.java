@@ -19,10 +19,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Entity
 @Table(name = "Order Details")
-public class OrderDetails {
+public class OrderDetail {
 
     @EmbeddedId
-    private OrderDetailsId id;
+    private OrderDetailId id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("orderId")

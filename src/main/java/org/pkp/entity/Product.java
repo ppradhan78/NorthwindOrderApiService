@@ -2,9 +2,7 @@ package org.pkp.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@Getter
+@Setter
 @Table(name = "Products", schema ="dbo" )
 public class Product {
 
@@ -56,6 +56,6 @@ public class Product {
     private boolean discontinued;
 
     @OneToMany(mappedBy = "product")
-    private List<OrderDetails> orderDetails;
+    private List<OrderDetail> orderDetails;
 
 }

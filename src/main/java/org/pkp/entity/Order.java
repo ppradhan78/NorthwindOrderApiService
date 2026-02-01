@@ -68,5 +68,5 @@ public class Order {
     private String shipCountry;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderDetails> orderDetails;
+    private List<OrderDetail> orderDetails;
 }

@@ -2,6 +2,8 @@ package org.pkp.dto.Response;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -9,9 +11,8 @@ import java.time.LocalDate;
 public class OrderDetailResponse {
     private Integer orderId;
     private Integer productID;
-    private LocalDate orderDate;
-    private LocalDate requiredDate;
-    private LocalDate shippedDate;
-    private CustomerResponse customer;
+    private BigDecimal unitPrice;
+    private Short  quantity;
+    private Float  discount;
 
 }
