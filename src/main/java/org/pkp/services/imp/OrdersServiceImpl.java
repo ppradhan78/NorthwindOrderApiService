@@ -1,8 +1,12 @@
 package org.pkp.services.imp;
 
 import lombok.RequiredArgsConstructor;
-import org.pkp.entity.Orders;
-import org.pkp.repository.OrdersRepository;
+import org.pkp.dto.Response.AllOrderResponse;
+import org.pkp.dto.Response.OrderResponse;
+import org.pkp.entity.Order;
+import org.pkp.mapper.AllOrderMapper;
+import org.pkp.mapper.OrderMapper;
+import org.pkp.repository.OrderRepository;
 import org.pkp.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,27 +15,39 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class OrdersServiceImpl implements OrdersService {
 
-    @Autowired
-    private OrdersRepository repository;
+    private OrderRepository repository;
+    private final OrderMapper mapper;
+    private final AllOrderMapper allOrderMapper;
 
-    /**
-     * @return
-     */
-    @Override
-    public List<Orders> findAll() {
-        return repository.findAll();
+    public OrdersServiceImpl(OrderRepository repository,
+                             OrderMapper mapper,AllOrderMapper allOrderMapper) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.allOrderMapper = allOrderMapper;
     }
+    @Override
+    public List<AllOrderResponse> findAllOrder() {
+        return allOrderMapper.toAllOrderResponseList(
+                repository.findAllOrder()
+        );
+    }
+
+
+    @Override
+    public List<OrderResponse> findAll() {
+            return mapper.toResponseList(repository.findAll());
+      }
 
     /**
      * @param id
      * @return
      */
     @Override
-    public Optional<Orders> findById(int id) {
-        return repository.findById(id);
+    public Optional<OrderResponse> findById(int id) {
+        return repository.findById(id)
+                .map(mapper::toResponse);
     }
 
     /**
@@ -39,7 +55,7 @@ public class OrdersServiceImpl implements OrdersService {
      * @return
      */
     @Override
-    public Orders save(Orders dto) {
+    public Order save(Order dto) {
         return repository.save(dto);
     }
 
@@ -59,21 +75,26 @@ public class OrdersServiceImpl implements OrdersService {
      * @return
      */
     @Override
-    public List<Orders> findByShipNameAndShipCity(String ShipName, String ShipCity) {
+    public List<Order> findByShipNameAndShipCity(String ShipName, String ShipCity) {
         return repository.findByShipNameAndShipCity( ShipName,  ShipCity);
     }
 
     @Override
-    public List<Orders> findByShipPostalCodeContaining(String shipPostalCode) {
+    public List<Order> findByShipPostalCodeContaining(String shipPostalCode) {
 //        var result=repository.findByShipPostalCodeContaining(shipPostalCode);
 //        return result;
         return null;
     }
 
     @Override
-    public List<Orders> findByShipName(String ShipName) {
+    public List<Order> findByShipName(String ShipName) {
 //        var result=repository.findByShipName(ShipName);
 //        return result;
         return null;
     }
+
+//    @Override
+//    public List<OrderEntity> findByCustomerID(String customerID){
+//        return repository.findByCustomerID( customerID);
+//    }
 }

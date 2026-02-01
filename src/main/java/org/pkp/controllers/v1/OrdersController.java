@@ -1,7 +1,10 @@
 package org.pkp.controllers.v1;
 
 import lombok.RequiredArgsConstructor;
-import org.pkp.entity.Orders;
+import org.pkp.dto.Response.AllOrderResponse;
+import org.pkp.dto.Response.OrderDetailResponse;
+import org.pkp.dto.Response.OrderResponse;
+import org.pkp.entity.Order;
 import org.pkp.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -18,31 +20,38 @@ public class OrdersController {
     @Autowired
     private final OrdersService service;
 
-    @GetMapping
-    public ResponseEntity<List<Orders>> findAll() {
+    @GetMapping("/full")
+    public ResponseEntity<List<AllOrderResponse>> findAllOrder() {
         try{
-            return ResponseEntity.ok(service.findAll());
+            var output=service.findAllOrder();
+            return ResponseEntity.ok(output);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @GetMapping
+    public ResponseEntity<List<OrderResponse>> findAll() {
+        try{
+            var output=service.findAll();
+            return ResponseEntity.ok(output);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Orders>> findById(@PathVariable int id) {
-        Optional<Orders> customers= service.findById(id);
-        if (customers.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        else{
-            return ResponseEntity.ok(customers);
-        }
-
+    public ResponseEntity<OrderResponse> findById(@PathVariable int id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Map<String, String> save(@RequestBody Orders dto) {
-        Orders success= service.save( dto);
-        if ( (success != null && success.getCustomerID() != null)|| !success.getCustomerID().isEmpty()) {
+    public Map<String, String> save(@RequestBody Order dto) {
+        Order success= service.save( dto);
+        if ( (success != null && success.getCustomer()!= null)) {
             return Map.of("message", "Customers created successfully");
         }
         else {
@@ -62,7 +71,7 @@ public class OrdersController {
     }
 
     @GetMapping("/by-name-city")
-    public List<Orders> findByShipNameAndShipCity(
+    public List<Order> findByShipNameAndShipCity(
             @RequestParam String ShipName,
             @RequestParam String ShipCity) {
 
@@ -70,16 +79,22 @@ public class OrdersController {
     }
 
     @GetMapping("/postal")
-    public ResponseEntity<List<Orders>> findByShipPostalCodeContaining(
+    public ResponseEntity<List<Order>> findByShipPostalCodeContaining(
             @RequestParam(required = false, defaultValue = "") String shipPostalCode) {
 
         return ResponseEntity.ok(service.findByShipPostalCodeContaining(shipPostalCode));
     }
 
     @GetMapping("/cname")
-    public ResponseEntity<List<Orders>> findByShipName(
+    public ResponseEntity<List<Order>> findByShipName(
             @RequestParam(required = false, defaultValue = "") String ShipName) {
 
         return ResponseEntity.ok(service.findByShipName(ShipName));
     }
+//    @GetMapping("/custId")
+//    public ResponseEntity<List<OrderEntity>> findByCustomerID(
+//            @RequestParam(required = false, defaultValue = "") String customerID) {
+//        return ResponseEntity.ok(service.findByCustomerID(customerID));
+//    }
+
 }

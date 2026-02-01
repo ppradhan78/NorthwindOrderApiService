@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class OrdersModel {
+public class OrderModel {
     private int OrderID;
     private String CustomerID;
     private int EmployeeID;

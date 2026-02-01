@@ -1,6 +1,8 @@
 package org.pkp.services;
 
-import org.pkp.entity.Orders;
+import org.pkp.dto.Response.AllOrderResponse;
+import org.pkp.dto.Response.OrderResponse;
+import org.pkp.entity.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,13 +10,15 @@ import java.util.Optional;
 
 @Service
 public interface OrdersService {
-    List<Orders> findAll();
-    Optional<Orders> findById(int id);
-    Orders save(Orders dto);
+    List<AllOrderResponse> findAllOrder();
+    List<OrderResponse> findAll();
+    Optional<OrderResponse> findById(int id);
+    Order save(Order dto);
     void deleteById(int id);
 
-    List<Orders> findByShipPostalCodeContaining(String shipPostalCode);
-    List<Orders> findByShipNameAndShipCity(String ShipName, String ShipCity)
+    List<Order> findByShipPostalCodeContaining(String shipPostalCode);
+    List<Order> findByShipNameAndShipCity(String ShipName, String ShipCity)
             ;
-    List<Orders> findByShipName(String ShipName);
+    List<Order> findByShipName(String ShipName);
+//    List<OrderEntity> findByCustomerID(String customerID);
 }
