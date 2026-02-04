@@ -9,10 +9,9 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class OrderDetailResponse {
-    private Integer orderId;
-    private Integer productID;
-    private BigDecimal unitPrice;
-    private Short  quantity;
-    private Float  discount;
 
+    private Integer productId;
+    private BigDecimal unitPrice;
+    private Integer quantity;
+    private Float discount;
 }

@@ -5,32 +5,25 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "Orders")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(onlyExplicitlyIncluded = true)
-@Entity
-@Table(name = "Orders", schema = "dbo")
 public class Order {
 
     @Id
-    @Column(name = "OrderID", nullable = false)
-    @EqualsAndHashCode.Include
-    @ToString.Include
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "OrderID")
     private Integer orderID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    //@Column(name = "CustomerID")
     @JoinColumn(name = "CustomerID")
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    //@Column(name = "EmployeeID")
     @JoinColumn(name = "EmployeeID")
     private Employee employee;
 
@@ -43,8 +36,9 @@ public class Order {
     @Column(name = "ShippedDate")
     private LocalDate shippedDate;
 
-    @Column(name = "ShipVia")
-    private Integer shipVia;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ShipVia")
+    private Shipper shipVia;
 
     @Column(name = "Freight")
     private BigDecimal freight;
@@ -67,6 +61,15 @@ public class Order {
     @Column(name = "ShipCountry")
     private String shipCountry;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderDetail> orderDetails;
+    @OneToMany(
+            mappedBy = "order",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<OrderDetail> orderDetails = new ArrayList<>();
+
+    public void addDetail(OrderDetail detail) {
+        orderDetails.add(detail);
+        detail.setOrder(this);
+    }
 }

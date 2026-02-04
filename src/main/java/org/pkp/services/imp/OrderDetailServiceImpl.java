@@ -29,29 +29,31 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Override
     public OrderDetailSaveResponse save(OrderDetailRequest request) {
-        OrderDetail detail = mapper.toEntity(request);
-
-        // Fetch Order first
-        Order order = orderRepository.findById(request.getOrderId())
-                .orElseThrow(() -> new RuntimeException("Order not found"));
-        // Attach Order to OrderDetail
-        detail.setOrder(order);
-
-        Product product=productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        detail.setProduct(product);
-
-        detail.setId(new OrderDetailId(
-                order.getOrderID(),
-                product.getProductID()
-        ));
-        OrderDetail saved = repository.save(detail);
+//        OrderDetail detail = mapper.toEntity(request);
+//
+//        // Fetch Order first
+//        Order order = orderRepository.findById(request.getOrderId())
+//                .orElseThrow(() -> new RuntimeException("Order not found"));
+//        // Attach Order to OrderDetail
+//        detail.setOrder(order);
+//
+//        Product product=productRepository.findById(request.getProductId())
+//                .orElseThrow(() -> new RuntimeException("Product not found"));
+//
+//        detail.setProduct(product);
+//
+//        detail.setId(new OrderDetailId(
+//                order.getOrderID(),
+//                product.getProductID()
+//        ));
+//        OrderDetail saved = repository.save(detail);
 
         return new OrderDetailSaveResponse(
                 "Order detail saved successfully",
-                saved.getOrder().getOrderID(),
-                saved.getProduct().getProductID()
+0,
+0
+//                saved.getOrder().getOrderID(),
+//                saved.getProduct().getProductID()
         );
     }
 }

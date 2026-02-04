@@ -1,87 +1,63 @@
 package org.pkp.mapper;
 
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.pkp.dto.Request.OrderDetailRequest;
+import org.pkp.dto.Request.OrderRequest;
 import org.pkp.dto.Response.AllOrderResponse;
-import org.pkp.dto.Response.CustomerResponse;
-import org.pkp.dto.Response.EmployeeResponse;
+import org.pkp.dto.Response.OrderDetailResponse;
 import org.pkp.dto.Response.OrderResponse;
-import org.pkp.entity.Customer;
 import org.pkp.entity.Order;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
+import org.pkp.entity.OrderDetail;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
-    // ✅ Entity → DTO
-    OrderResponse toResponse(Order entity);
-    // ✅ List<Entity> → List<DTO>
-    List<OrderResponse> toResponseList(List<Order> entity);
-}
+    @Mapping(target = "orderID", ignore = true)
 
-//public class OrderMapper {
-//
-//    public static AllOrderResponse toAllResponse(Order entity){
-//        AllOrderResponse or=new AllOrderResponse();
-//
-//        OrderResponse r = new OrderResponse();
-//        r.setOrderID(entity.getOrderID());
-//        if (entity.getCustomer() != null) {
-//            r.setCustomerID(entity.getCustomer().getCustomerID());
-//        }
-//        if (entity.getEmployee() != null) {
-//            r.setEmployeeID(entity.getEmployee().getEmployeeID());
-//        }
-//
-//        CustomerResponse cr =new CustomerResponse();
-//        or.setCustomerResponse(cr);
-//        EmployeeResponse er =new EmployeeResponse();
-//        or.setEmployeeResponse(er);
-//
-//        r.setOrderDate(entity.getOrderDate());
-//        r.setRequiredDate(entity.getRequiredDate());
-//        r.setShippedDate(entity.getShippedDate());
-//        r.setFreight(entity.getFreight());
-//        r.setShipName(entity.getShipName());
-//        r.setShipAddress(entity.getShipAddress());
-//        r.setShipCity(entity.getShipCity());
-//        r.setShipRegion(entity.getShipRegion());
-//        r.setShipPostalCode(entity.getShipPostalCode());
-//        r.setShipCountry(entity.getShipCountry());
-//
-//        or.setOrderBaseResponse(r);
-//
-//        return or;
-//    }
-//
-//    public static OrderResponse toResponse(Order entity) {
-//        OrderResponse r = new OrderResponse();
-//        r.setOrderID(entity.getOrderID());
-//        if (entity.getCustomer() != null) {
-//            r.setCustomerID(entity.getCustomer().getCustomerID());
-//        }
-//        if (entity.getEmployee() != null) {
-//            r.setEmployeeID(entity.getEmployee().getEmployeeID());
-//        }
-//        r.setOrderDate(entity.getOrderDate());
-//        r.setRequiredDate(entity.getRequiredDate());
-//        r.setShippedDate(entity.getShippedDate());
-//        r.setFreight(entity.getFreight());
-//        r.setShipName(entity.getShipName());
-//        r.setShipAddress(entity.getShipAddress());
-//        r.setShipCity(entity.getShipCity());
-//        r.setShipRegion(entity.getShipRegion());
-//        r.setShipPostalCode(entity.getShipPostalCode());
-//        r.setShipCountry(entity.getShipCountry());
-//        return r;
-//    }
-//
-//    public static List<OrderResponse> toResponseList(List<Order> entities) {
-//        if (entities == null || entities.isEmpty()) {
-//            return List.of();
-//        }
-//        return entities.stream()
-//                .map(OrderMapper::toResponse)
-//                .collect(Collectors.toList());
-//    }
-//}
+    @Mapping(target = "customer", ignore = true)
+    @Mapping(target = "employee", ignore = true)
+    @Mapping(target = "shipVia", ignore = true)
+
+    @Mapping(target = "orderDate", ignore = true)
+
+    @Mapping(source = "details", target = "orderDetails")
+    Order toEntity(OrderRequest request);
+
+
+    @Mapping(target = "order", ignore = true)
+    @Mapping(target = "product", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    OrderDetail toDetailEntity(OrderDetailRequest dto);
+
+
+    // ---------------------------
+    // Entity → Response
+    // ---------------------------
+    @Mapping(source = "orderID", target = "orderId")
+    @Mapping(source = "customer.customerID", target = "customerId")
+    @Mapping(source = "employee.employeeID", target = "employeeId")
+
+    // FIX: shipVia Object → shipperID
+    @Mapping(source = "shipVia.shipperID", target = "shipVia")
+
+    @Mapping(source = "orderDetails", target = "details")
+    OrderResponse toResponse(Order order);
+
+
+    @Mapping(source = "product.productID", target = "productId")
+    OrderDetailResponse toDetailResponse(OrderDetail detail);
+
+
+    // ---------------------------
+    // After Mapping
+    // ---------------------------
+    @AfterMapping
+    default void linkDetails(@MappingTarget Order order) {
+        if (order.getOrderDetails() != null) {
+            for (OrderDetail detail : order.getOrderDetails()) {
+                detail.setOrder(order);
+            }
+        }
+    }
+}

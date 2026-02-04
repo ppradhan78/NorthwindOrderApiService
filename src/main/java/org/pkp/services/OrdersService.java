@@ -1,7 +1,9 @@
 package org.pkp.services;
 
+import org.pkp.dto.Request.OrderRequest;
 import org.pkp.dto.Response.AllOrderResponse;
 import org.pkp.dto.Response.OrderResponse;
+import org.pkp.dto.Response.OrderSaveResponse;
 import org.pkp.entity.Order;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +14,8 @@ import java.util.Optional;
 public interface OrdersService {
     List<AllOrderResponse> findAllOrder();
     List<OrderResponse> findAll();
-    Optional<OrderResponse> findById(int id);
-    Order save(Order dto);
+    OrderSaveResponse save(OrderRequest request);
+//    OrderResponse findById(Integer id);
     void deleteById(int id);
 
     List<Order> findByShipPostalCodeContaining(String shipPostalCode);

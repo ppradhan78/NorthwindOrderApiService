@@ -1,11 +1,15 @@
 package org.pkp.controllers.v1;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.pkp.dto.Request.OrderRequest;
 import org.pkp.dto.Response.AllOrderResponse;
 import org.pkp.dto.Response.OrderResponse;
+import org.pkp.dto.Response.OrderSaveResponse;
 import org.pkp.entity.Order;
 import org.pkp.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,22 +43,16 @@ public class OrdersController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<OrderResponse> findById(@PathVariable int id) {
-        return service.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<OrderResponse> findById(@PathVariable Integer id) {
+//        return ResponseEntity.ok(service.findById(id));
+//    }
 
     @PostMapping
-    public Map<String, String> save(@RequestBody Order dto) {
-        Order success= service.save( dto);
-        if ( (success != null && success.getCustomer()!= null)) {
-            return Map.of("message", "Customers created successfully");
-        }
-        else {
-            return Map.of("message", "Faill to Create Orders.");
-        }
+    public ResponseEntity<OrderSaveResponse> save(@RequestBody OrderRequest dto) {
+        OrderSaveResponse response= service.save(dto);
+        return ResponseEntity.ok(response);
+
     }
 
     @DeleteMapping("/{id}")

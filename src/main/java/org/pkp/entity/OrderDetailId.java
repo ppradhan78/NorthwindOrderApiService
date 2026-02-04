@@ -1,16 +1,13 @@
 package org.pkp.entity;
 
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Embeddable
+@Getter
+@Setter
 public class OrderDetailId implements Serializable {
 
     private Integer orderId;
