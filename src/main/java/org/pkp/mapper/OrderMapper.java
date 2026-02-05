@@ -6,11 +6,13 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.pkp.dto.Request.OrderDetailRequest;
 import org.pkp.dto.Request.OrderRequest;
-import org.pkp.dto.Response.AllOrderResponse;
 import org.pkp.dto.Response.OrderDetailResponse;
 import org.pkp.dto.Response.OrderResponse;
 import org.pkp.entity.Order;
 import org.pkp.entity.OrderDetail;
+
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
     @Mapping(target = "orderID", ignore = true)
@@ -43,6 +45,8 @@ public interface OrderMapper {
 
     @Mapping(source = "orderDetails", target = "details")
     OrderResponse toResponse(Order order);
+
+    List<OrderResponse> toOrderResponseList(List<Order> orders);
 
 
     @Mapping(source = "product.productID", target = "productId")

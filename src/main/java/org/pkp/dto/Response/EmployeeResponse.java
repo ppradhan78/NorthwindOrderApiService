@@ -1,9 +1,12 @@
 package org.pkp.dto.Response;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.pkp.entity.Employee;
 
 import java.time.LocalDate;
-
+@Getter
+@Setter
 public class EmployeeResponse {
     private Integer employeeID;
     private String lastName;

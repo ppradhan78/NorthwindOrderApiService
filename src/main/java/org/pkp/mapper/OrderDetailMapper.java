@@ -8,7 +8,7 @@ import org.pkp.entity.OrderDetail;
 
 @Mapper(componentModel = "spring")
 public interface OrderDetailMapper {
-
+    //@Mapping(source = "productId", target = "productResponse")
     // Request DTO → Entity
     OrderDetail toEntity(OrderDetailRequest request);
 

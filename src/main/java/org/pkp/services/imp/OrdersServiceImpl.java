@@ -43,16 +43,16 @@ public class OrdersServiceImpl implements OrdersService {
     }
     @Override
     public List<AllOrderResponse> findAllOrder() {
+        var result=repository.findAllOrder().subList(0, 2);;
         return allOrderMapper.toAllOrderResponseList(
-                repository.findAllOrder()
+                result
         );
     }
 
 
     @Override
     public List<OrderResponse> findAll() {
-return  null;
-        //orderMapper.toResponse(repository.findAll());
+      return  orderMapper.toOrderResponseList(repository.findAll());
       }
 
     /**

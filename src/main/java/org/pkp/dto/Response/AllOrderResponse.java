@@ -9,4 +9,6 @@ public class AllOrderResponse {
     private OrderResponse orderBaseResponse;
     private CustomerResponse customerResponse;
     private EmployeeResponse employeeResponse;
+    private ShipperResponse shipperResponse;
+    //private ProductResponse productResponse;
 }

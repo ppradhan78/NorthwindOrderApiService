@@ -14,6 +14,8 @@ public interface AllOrderMapper {
     @Mapping(source = "order", target = "orderBaseResponse")
     @Mapping(source = "customer", target = "customerResponse")
     @Mapping(source = "employee", target = "employeeResponse")
+    @Mapping(source = "shipVia", target = "shipperResponse")
+    //@Mapping(source = "product", target = "productResponse")
     AllOrderResponse toAllOrderResponse(Order order);
 
     // ✅ List Mapping

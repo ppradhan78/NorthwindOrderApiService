@@ -1,5 +1,6 @@
 package org.pkp.dto.Response;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,13 @@ public class OrderResponse {
 
     private LocalDate orderDate;
     private BigDecimal freight;
+    private String shipName;
+    private String shipAddress;
+    private String shipCity;
+    private String shipRegion;
+    private String shipPostalCode;
+    private String shipCountry;
 
+    @NotEmpty
     private List<OrderDetailResponse> details;
 }
