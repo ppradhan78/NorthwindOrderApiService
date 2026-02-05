@@ -1,15 +1,12 @@
 package org.pkp.controllers.v1;
 
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.pkp.dto.Request.OrderRequest;
-import org.pkp.dto.Response.AllOrderResponse;
+import org.pkp.dto.Response.FullBaseOrderResponse;
 import org.pkp.dto.Response.OrderResponse;
 import org.pkp.dto.Response.OrderSaveResponse;
-import org.pkp.entity.Order;
 import org.pkp.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +21,7 @@ public class OrdersController {
     private final OrdersService service;
 
     @GetMapping("/full")
-    public ResponseEntity<List<AllOrderResponse>> findAllOrder() {
+    public ResponseEntity<List<FullBaseOrderResponse>> findAllOrder() {
         try{
             var output=service.findAllOrder();
             return ResponseEntity.ok(output);
@@ -43,10 +40,12 @@ public class OrdersController {
         }
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<OrderResponse> findById(@PathVariable Integer id) {
-//        return ResponseEntity.ok(service.findById(id));
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponse> findById(@PathVariable Integer id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     @PostMapping
     public ResponseEntity<OrderSaveResponse> save(@RequestBody OrderRequest dto) {
@@ -65,32 +64,31 @@ public class OrdersController {
             return Map.of("message", "Faill to deleted Orders.");
         }
     }
-
-    @GetMapping("/by-name-city")
-    public List<Order> findByShipNameAndShipCity(
+    @GetMapping("/by-ship-name-city")
+    public List<OrderResponse> findByShipNameAndShipCity(
             @RequestParam String ShipName,
             @RequestParam String ShipCity) {
 
         return service.findByShipNameAndShipCity(ShipName, ShipCity);
     }
 
-    @GetMapping("/postal")
-    public ResponseEntity<List<Order>> findByShipPostalCodeContaining(
+    @GetMapping("/ship-postalCode")
+    public ResponseEntity<List<OrderResponse>> findByShipPostalCodeContaining(
             @RequestParam(required = false, defaultValue = "") String shipPostalCode) {
 
         return ResponseEntity.ok(service.findByShipPostalCodeContaining(shipPostalCode));
     }
 
-    @GetMapping("/cname")
-    public ResponseEntity<List<Order>> findByShipName(
+    @GetMapping("/ShipName")
+    public ResponseEntity<List<OrderResponse>> findByShipName(
             @RequestParam(required = false, defaultValue = "") String ShipName) {
 
         return ResponseEntity.ok(service.findByShipName(ShipName));
     }
-//    @GetMapping("/custId")
-//    public ResponseEntity<List<OrderEntity>> findByCustomerID(
-//            @RequestParam(required = false, defaultValue = "") String customerID) {
-//        return ResponseEntity.ok(service.findByCustomerID(customerID));
-//    }
+    @GetMapping("/customerId")
+    public ResponseEntity<List<OrderResponse>> findByCustomerID(
+            @RequestParam(required = false, defaultValue = "") String customerID) {
+        return ResponseEntity.ok(service.findByCustomerID(customerID));
+    }
 
 }

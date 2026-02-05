@@ -13,6 +13,9 @@ import java.math.BigDecimal;
 public class OrderDetailRequest {
 
     @NotNull
+    private Integer orderId;
+
+    @NotNull
     private Integer productId;
 
     @NotNull

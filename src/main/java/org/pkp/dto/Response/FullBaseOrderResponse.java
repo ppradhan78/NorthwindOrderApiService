@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AllOrderResponse {
-    private OrderResponse orderBaseResponse;
+public class FullBaseOrderResponse {
+    private FullOrderResponse orderBaseResponse;
     private CustomerResponse customerResponse;
     private EmployeeResponse employeeResponse;
     private ShipperResponse shipperResponse;

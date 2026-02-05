@@ -1,14 +1,17 @@
 package org.pkp.dto.Response;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
-public class OrderResponse {
+public class FullOrderResponse {
+
     private Integer orderId;
 
     private String customerId;
@@ -24,4 +27,7 @@ public class OrderResponse {
     private String shipRegion;
     private String shipPostalCode;
     private String shipCountry;
+
+    @NotEmpty
+    private List<FullOrderDetailResponse> details;
 }
