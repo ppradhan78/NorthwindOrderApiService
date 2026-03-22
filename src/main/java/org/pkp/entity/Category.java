@@ -2,20 +2,20 @@ package org.pkp.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 //@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
+@Getter
+@Setter
 @Table(name = "Categories", schema ="dbo" )
 public class Category {
 
     @Id
-    @NotBlank
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name="CategoryID")
     private int categoryID;
 
