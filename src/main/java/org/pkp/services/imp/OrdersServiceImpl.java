@@ -49,10 +49,49 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
 
+//    @Override
+//    public List<OrderResponse> findAll() {
+//      return  orderMapper.toResponseList(repository.findAll());
+//      }
+
+    public List<OrderResponse> findAll_Steem_Lambda() {
+        return  orderMapper.toResponseList(repository.findAll());
+    }
+
+    private OrderResponse mapToResponse(Order order) {
+        OrderResponse res = new OrderResponse();
+        res.setOrderId(order.getOrderID());
+        res.setCustomerId(order.getCustomer().getCustomerID());
+        res.setEmployeeId(order.getEmployee().getEmployeeID());
+        res.setShipVia(order.getShipVia().getShipperID());
+        res.setOrderDate(order.getOrderDate());
+        res.setFreight(order.getFreight());
+        res.setShipName(order.getShipName());
+        res.setShipAddress(order.getShipAddress());
+        res.setShipCity(order.getShipCity());
+        res.setShipRegion(order.getShipRegion());
+        res.setShipPostalCode(order.getShipPostalCode());
+        res.setShipCountry(order.getShipCountry());
+        return res;
+    }
+//@Override
+//public List<OrderResponse> findAll() {
+//    return repository.findAll()
+//            .stream()
+//            .map(this::mapToResponse)
+//            .toList();
+//}
+
     @Override
     public List<OrderResponse> findAll() {
-      return  orderMapper.toResponseList(repository.findAll());
-      }
+        return repository.findAll()
+                .stream()
+                .filter(order -> order.getShipRegion() != null)   // lambda
+                .map(this::mapToResponse)
+                .sorted((o1, o2) -> o2.getEmployeeId().compareTo(o1.getEmployeeId())) // lambda
+                .distinct()
+                .toList();
+    }
 
     /**
      * @param id
