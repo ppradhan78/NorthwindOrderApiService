@@ -4,17 +4,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.pkp.dto.Request.OrderRequest;
-import org.pkp.dto.Response.FullBaseOrderResponse;
-import org.pkp.dto.Response.OrderResponse;
-import org.pkp.dto.Response.OrderSaveResponse;
-import org.pkp.services.LambdaStreamApiService;
+import org.pkp.dto.v2.response.OrderResponse;
+import org.pkp.services.v2.LambdaStreamApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/LambdaStream")

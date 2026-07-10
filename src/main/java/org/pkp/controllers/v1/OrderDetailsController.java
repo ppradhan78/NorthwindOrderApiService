@@ -1,10 +1,10 @@
 package org.pkp.controllers.v1;
 
 import jakarta.validation.Valid;
-import org.pkp.dto.Request.OrderDetailRequest;
-import org.pkp.dto.Response.FullOrderDetailResponse;
-import org.pkp.dto.Response.OrderDetailSaveResponse;
-import org.pkp.services.OrderDetailService;
+import org.pkp.dto.v2.request.OrderDetailRequest;
+import org.pkp.dto.v2.response.FullOrderDetailResponse;
+import org.pkp.dto.v2.response.OrderDetailSaveResponse;
+import org.pkp.services.v2.OrderDetailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

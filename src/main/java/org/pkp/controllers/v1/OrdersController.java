@@ -1,11 +1,11 @@
 package org.pkp.controllers.v1;
 
 import lombok.RequiredArgsConstructor;
-import org.pkp.dto.Request.OrderRequest;
-import org.pkp.dto.Response.FullBaseOrderResponse;
-import org.pkp.dto.Response.OrderResponse;
-import org.pkp.dto.Response.OrderSaveResponse;
-import org.pkp.services.OrdersService;
+import org.pkp.dto.v2.request.OrderRequest;
+import org.pkp.dto.v2.response.FullBaseOrderResponse;
+import org.pkp.dto.v2.response.OrderResponse;
+import org.pkp.dto.v2.response.OrderSaveResponse;
+import org.pkp.services.v2.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
