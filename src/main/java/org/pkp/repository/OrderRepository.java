@@ -1,5 +1,6 @@
 package org.pkp.repository;
 
+import org.pkp.dto.Response.OrderResponse;
 import org.pkp.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
